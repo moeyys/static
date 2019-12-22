@@ -3,7 +3,7 @@
     position: relative;
 }
 .scroll-background{
-    background-image: url("./images/sprite.3.2.0.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/moeyys/static/images/sprite.3.2.0.png");
     background-repeat: no-repeat;
 }
 .scroll-bar{
