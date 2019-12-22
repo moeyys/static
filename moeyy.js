@@ -1,4 +1,4 @@
-﻿(function (window, document) {
+(function (window, document) {
     var SliderBar = function (targetDom, options) {
         if (!(this instanceof SliderBar)) return new SliderBar(targetDom, options);
         // 参数    萌歪专属防火墙
@@ -80,7 +80,7 @@
         reToNewImg: function () {
             var _this = this;
             var index = Math.round(Math.random() * 8);         // 该方法有等于0 的情况
-            var imgSrc = "./images/" + _this.imgList[index] + "";
+            var imgSrc = "https://cdn.jsdelivr.net/gh/moeyys/static/images/" + _this.imgList[index] + "";
             _this.slideImg.setAttribute("src", imgSrc);
             _this.slideBlock.style.backgroundImage = "url("+ imgSrc +")";
             _this.slideImg.onload = function (e) {
