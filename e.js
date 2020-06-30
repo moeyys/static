@@ -1,8 +1,10 @@
+
+//
+var js_items = ["Misc", "JAVASCRIPT", "Script items"];
 var rbot_weapon_types = ["GENERAL", "PISTOL", "HEAVY PISTOL", "SCOUT", "AWP", "AUTOSNIPER"];
 var reworked_lbot_guns = ["Pistol", "Heavy pistol", "Heavy", "Rifle", "SMG", "Scout", "AWP", "Autosnipers"];
 var rbot_hitboxes = ["Head", "Upper chest", "Chest", "Lower chest", "Stomach", "Pelvis", "Legs", "Feet"];
 
-//Fuck y'all 3iq people who can't download Mathlib.
 function setup_menu()
 {
     UI.AddCheckbox("Enable semirage assist");
@@ -15,10 +17,12 @@ function setup_menu()
         UI.AddMultiDropdown(current_gun + " allowed hitboxes", rbot_hitboxes);
         UI.AddSliderFloat(current_gun + " dynamic FOV min", 0.1, 180.0);
         UI.AddSliderFloat(current_gun + " dynamic FOV max", 0.1, 180.0);
-        if(i == 2 || i == 3 || i == 4)
-        {
+
             UI.AddSliderInt(current_gun + " minimum damage", 0, 130);
             UI.AddSliderInt(current_gun + " hitchance", 0, 100);
+        if(i == 2 || i == 3 || i == 4)
+        {
+        
             UI.AddCheckbox(current_gun + " prefer bodyaim");
             UI.AddCheckbox(current_gun + " prefer safepoint");
         }
@@ -40,7 +44,7 @@ function setup_menu()
     UI.AddCheckbox("Enable legit AA");
     UI.AddCheckbox("Safety checks");
     UI.AddDropdown("LBY Mode", ["Safe", "Extend", "Break", "Centered"]);
-    UI.AddHotkey("Legit AA juke (only in rage)");
+    //UI.AddHotkey("Legit AA juke (only in rage)");
     UI.AddCheckbox("Legit AA edge detection");
     UI.AddDropdown("Peeking mode", ["Peek with fake", "Peek with real"]);
     UI.AddMultiDropdown("Semirage assist indicators", ["Aimbot status", "Autowall", "Legit AA", "Choke", "Aim mode", "Enemy possible real yaw side", "Watermark", "MM Info"]);
@@ -49,7 +53,7 @@ function setup_menu()
     UI.AddColorPicker("Side text color");
 
     UI.AddColorPicker("Watermark accent color");
-    UI.SetColor("Misc", "JAVASCRIPT", "Script Items", "Watermark accent color", [255, 255, 255, 200]);
+    UI.SetColor("Misc", "JAVASCRIPT", "Script items", "Watermark accent color", [255, 255, 255, 200]);
     UI.AddCheckbox("Rage shot logs");
 
     UI.AddCheckbox("Trashtalk");
@@ -126,14 +130,13 @@ function get_weapon_for_config()
         case "usp s":
         case "p2000":
         case "glock 18":
-        case "dual berettas":
+
         case "p250":
         case "tec 9":
         case "five seven":
         case "cz75 auto":
             break;
-        case "desert eagle":
-        case "r8 revolver":
+
             ret = 1;
             break;
         case "nova":
@@ -142,6 +145,9 @@ function get_weapon_for_config()
         case "sawed off":
         case "m249":
         case "negev":
+        case "desert eagle":
+        case "r8 revolver":
+        case "dual berettas":
             ret = 2;
             break;
         case "famas":
@@ -200,23 +206,23 @@ function convert_weapon_index_into_rbot_idx(wpn_index) //Converts current weapon
         case 7:
             return 5;
         case -1:
-            return -1;
+           return -1;
     }
 }
 
 var prev_wpntype_settings = -1;
 function update_settings()
 {
-    script_config.script_active = UI.GetValue("Misc", "JAVASCRIPT", "Script Items", "Enable semirage assist");
+    script_config.script_active = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "Enable semirage assist");
 
     script_config.rbot_active = UI.IsHotkeyActive("Rage", "General", "Enabled");
     script_config.lbot_active = UI.IsHotkeyActive("Misc", "JAVASCRIPT", "Script items", "Legitbot aimkey");
     script_config.autowall_active = UI.IsHotkeyActive("Misc", "JAVASCRIPT", "Script items", "Autowall");
     
-    script_config.legitaa_active = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "Enable legit AA");
+    //script_config.legitaa_active = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "Enable legit AA");
     script_config.legitaa_safety_active = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "Safety checks");
     script_config.legitaa_lby_mode = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "LBY Mode");
-    script_config.legitaa_juke_active = UI.IsHotkeyActive("Misc", "JAVASCRIPT", "Script items", "Legit AA juke");
+    //script_config.legitaa_juke_active = UI.IsHotkeyActive("Misc", "JAVASCRIPT", "Script items", "Legit AA juke");
     script_config.legitaa_edge_active = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "Legit AA edge detection");
     script_config.legitaa_peek_behavior = UI.GetValue("Misc", "JAVASCRIPT", "Script items", "Peeking mode");
 
@@ -297,7 +303,7 @@ function handle_visibility()
         UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "Enable legit AA", script_config.script_active);
         UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "Safety checks", script_config.script_active && script_config.legitaa_active);
         UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "LBY Mode", script_config.script_active && script_config.legitaa_active);
-        UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "Legit AA juke (only in rage)", script_config.script_active && script_config.legitaa_active);
+        //UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "Legit AA juke (only in rage)", script_config.script_active && script_config.legitaa_active);
         
         UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "Legit AA edge detection", script_config.script_active && script_config.legitaa_active);
         UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", "Peeking mode", script_config.script_active && script_config.legitaa_active && script_config.legitaa_edge_active);
@@ -324,35 +330,36 @@ function handle_visibility()
         var weapon_name = reworked_lbot_guns[i];
         if(last_configured_weapon != cur_selected_gun || script_config.script_active != last_script_enabled_state)
         {
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " allowed hitboxes", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " allowed hitboxes", script_config.script_active && cur_selected_gun == i);
 
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " dynamic FOV min", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " dynamic FOV max", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " dynamic FOV min", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " dynamic FOV max", script_config.script_active && cur_selected_gun == i);
 
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " legit hitbox selection mode", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " legit smooth", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " legit mindmg", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " RCS (p)", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " RCS (y)", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " kill delay", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " legit hitbox selection mode", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " legit smooth", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " legit mindmg", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " RCS (p)", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " RCS (y)", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " kill delay", script_config.script_active && cur_selected_gun == i);
+ UI.SetEnabled(js_items, weapon_name + " hitchance", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " minimum damage", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " prefer bodyaim", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " prefer safepoint", script_config.script_active && cur_selected_gun == i);
 
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " hitchance", script_config.script_active && cur_selected_gun == i && (i == 2 || i == 3 || i == 4));
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " minimum damage", script_config.script_active && cur_selected_gun == i && (i == 2 || i == 3 || i == 4));
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " prefer bodyaim", script_config.script_active && cur_selected_gun == i && (i == 2 || i == 3 || i == 4));
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " prefer safepoint", script_config.script_active && cur_selected_gun == i && (i == 2 || i == 3 || i == 4));
+
         }
         var awall_mode = UI.GetValue(weapon_name + " w/o autowall key");
         if(last_configured_weapon != cur_selected_gun || script_config.script_active != last_script_enabled_state || awall_mode != last_awall_state_for_weapons[i])
         {
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " w/o autowall key", script_config.script_active && cur_selected_gun == i);
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " autowall triggers", script_config.script_active && cur_selected_gun == i && awall_mode == 0);
+            UI.SetEnabled(js_items, weapon_name + " w/o autowall key", script_config.script_active && cur_selected_gun == i);
+            UI.SetEnabled(js_items, weapon_name + " autowall triggers", script_config.script_active && cur_selected_gun == i && awall_mode == 0);
         }
         var awall_triggers = UI.GetValue(weapon_name + " autowall triggers");
         if(last_configured_weapon != cur_selected_gun || script_config.script_active != last_script_enabled_state || awall_mode != last_awall_state_for_weapons[i] || awall_triggers != last_awall_triggers_for_weapons[i])
         {
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " time after hurt (s)", script_config.script_active && cur_selected_gun == i && awall_mode == 0 && awall_triggers & (1 << 1));
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " autowall FOV", script_config.script_active && cur_selected_gun == i && awall_mode == 0 && awall_triggers & (1 << 2));
-            UI.SetEnabled("Misc", "JAVASCRIPT", "Script items", weapon_name + " shot expire time (s)", script_config.script_active && cur_selected_gun == i && awall_mode == 0 && awall_triggers & (1 << 4));
+            UI.SetEnabled(js_items, weapon_name + " time after hurt (s)", script_config.script_active && cur_selected_gun == i && awall_mode == 0 && awall_triggers & (1 << 1));
+            UI.SetEnabled(js_items, weapon_name + " autowall FOV", script_config.script_active && cur_selected_gun == i && awall_mode == 0 && awall_triggers & (1 << 2));
+            UI.SetEnabled(js_items, weapon_name + " shot expire time (s)", script_config.script_active && cur_selected_gun == i && awall_mode == 0 && awall_triggers & (1 << 4));
         }
         last_awall_state_for_weapons[i] = awall_mode;
         last_awall_triggers_for_weapons[i] = awall_triggers;
@@ -520,13 +527,13 @@ function get_ragebot_hitgroup_for_hitbox(hitbox)
     {
         case 0:
         case 1:
-            return 0;
+//            return 0;
         case 6:
         case 15:
         case 16:
         case 17:
         case 18:
-            return 1;
+//            return 1;
         case 5:
         case 13:
         case 14:
@@ -909,11 +916,7 @@ function handle_legitaa() //there are quite a bit of (probably useless) tricks t
                 current_inversion *= -1; //To fuck up antifreestanding resolvers (and most legit AA resolvers should be doing anti-freestanding at some point in time, otherwise they're horribly lucky.)
             }
         }
-        UI.SetValue("Misc", "PERFORMANCE & INFORMATION", "Information", "Restrictions", 0);
-        UI.SetValue("Anti-Aim", "Rage Anti-Aim", "Enabled", 1);
-        UI.SetValue("Anti-Aim", "Rage Anti-Aim", "Yaw offset", 180);
-        UI.SetValue("Anti-Aim", "Extra", "Pitch", 0);
-        UI.SetValue("Anti-Aim", "Fake angles", "Enabled", 1);
+     
 
         if(!is_autodirection_used)
         {
@@ -967,7 +970,7 @@ function handle_legitaa() //there are quite a bit of (probably useless) tricks t
     else
     {
         AntiAim.SetOverride(0); //Bad code, but seems to flick less due to reasons I have no clue about.
-        UI.SetValue("Anti-Aim", "Rage Anti-Aim", "Enabled", 0);
+        
     }
 }
 
@@ -1009,16 +1012,7 @@ function handle_edge_detection(entity, step) //I recommend the step being divisi
         var base_yaw = ent_eyeangles[1] - 90;
         var end_yaw = ent_eyeangles[1] + 90;
 
-        for(var current_step = base_yaw; current_step <= end_yaw; current_step += step)
-        {
-            if(current_step == ent_eyeangles[1])
-            {
-                continue; //Not exactly a side, I guess.
-            }
-            var point_next_to_ent = vector_add(ent_headpos, [Math.cos(deg2rad(current_step)) * 450, Math.sin(deg2rad(current_step)) * 450, 0]);
-            var ray = Trace.Line(entity, ent_headpos, point_next_to_ent);
-            current_step < ent_eyeangles[1] ? left_fractions += ray[1] : right_fractions += ray[1];
-        }
+        
 
         left_fractions /= (90 / step);
         right_fractions /= (90 / step);
@@ -1104,8 +1098,8 @@ function handle_indicators()
                 }
                 if(script_config.indicator_picks & (1 << 1))
                 {
-                    var color = script_config.autowall_active || script_config.autowall_mode == 2 ? [77.5, 186, 10, 200] : (script_config.autowall_mode == 0 ? [190, 170, 18, 200] : [255, 25, 30, 200]);
-                    render_outlined_indicator(screen_center_x, base_yaw, "AW", color);
+                    var color = script_config.autowall_active || script_config.autowall_mode == 2 ? [77.5, 186, 10, 200] : (script_config.autowall_mode == 0 ? [255, 0, 0, 0] : [255, 25, 30, 200]);
+                    render_outlined_indicator(screen_center_x, base_yaw, "AotuWall", color);
                     base_yaw += 15;
                 }
                 if(script_config.indicator_picks & (1 << 2))
@@ -1495,8 +1489,6 @@ var hs_killsays = ["ez", "effortless", "1", "nice antiaim, you sell?", "you pay 
     "крякоюзер down, на завод нахуй", "я не понял ты такой жирный потомучто дошики каждый день жрешь???? нормальную работу найди может на еду денег хватит))))))))))))", "отлетел как самолет нахуй)))))"
 ];
 
-
-//I hope you haven't gotten cancer after reading those
 
 function on_player_death()
 {
